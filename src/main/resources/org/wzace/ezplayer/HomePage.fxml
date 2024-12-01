@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="571.0" prefWidth="382.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.wzace.ezplayer.controller.HomePageController">
+   <children>
+      <TextField fx:id="selectText" layoutX="23.0" layoutY="28.0" prefHeight="37.0" prefWidth="127.0" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10" />
+      <Button fx:id="selectButton" layoutX="149.0" layoutY="10.0" mnemonicParsing="false" onAction="#selectButtonOnAction" prefHeight="37.0" prefWidth="64.0" text="查询" AnchorPane.leftAnchor="149.0" AnchorPane.topAnchor="10.0" />
+      <Button fx:id="stopButton" layoutX="225.0" layoutY="10.0" mnemonicParsing="false" onAction="#stoptButtonOnAction" prefHeight="37.0" prefWidth="64.0" text="停止" AnchorPane.leftAnchor="225.0" AnchorPane.topAnchor="10.0" />
+      <Button fx:id="settingButton" layoutX="299.0" layoutY="10.0" mnemonicParsing="false" onAction="#settingButtonOnAction" prefHeight="37.0" prefWidth="64.0" text="设置" AnchorPane.leftAnchor="299.0" AnchorPane.topAnchor="10.0" />
+      <ListView fx:id="selectVoiceList" layoutX="23.0" layoutY="86.0" onMouseClicked="#selectVoiceListOnMouseClicked" prefHeight="235.0" prefWidth="574.0" style="-fx-fixed-cell-size: 32;" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="60" />
+      <Accordion layoutX="213.0" layoutY="105.0" />
+   </children>
+</AnchorPane>

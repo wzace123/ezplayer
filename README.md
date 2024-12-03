@@ -1,39 +1,44 @@
 # Easy Player
 
-Easy Player是一个简单且高效的音频播放器，专为游戏玩家设计。它具备音频播放和停止功能，并支持快速搜索本地音频文件。最显著的特点是，它可以在全屏游戏画面中悬浮显示，让用户无需频繁切换窗口，轻松使用音频功能。
+Easy Player is a simple and efficient audio player designed specifically for gamers. It not only includes basic audio play and stop functions, but also supports quick searches for local audio files. The most notable feature is its ability to float above full-screen game interfaces, allowing users to access audio functionality without frequently switching windows.
+[点击这里查看中文版本](README_zh.md)
 
-## 主要特点
-- **基础音频播放**：支持常见音频文件格式，可以轻松播放和停止音频。
-- **快速检索**：用户能够通过文件名快速查找本地存储的音频文件，节省时间。
-- **置顶功能**：播放器可保持在其它窗口之上，确保在游戏进行时随时可用。
+## Key Features
+- **Basic Audio Playback**: Supports various common audio file formats, enabling users to easily play and stop audio.
+- **Quick Search**: Users can quickly find locally stored audio files by entering their names, saving valuable time.
+- **Always on Top**: The player can stay on top of other windows, ensuring it remains accessible during gameplay.
 
-## 项目依赖
-Easy Player依赖以下库版本，请确保您已经安装相应的依赖项：
+## Project Dependencies
+Easy Player relies on the following library versions, please ensure you have the respective dependencies installed:
 - **Java**: `JDK 17`
 - **Maven**: `3.9.7`
 - **JavaFX**: `21.0.5`
 
-## 快速开始
-要快速启动Easy Player，请按照以下步骤进行：
+## Compatibility
+Currently, Easy Player **only supports Windows operating systems**.
+
+## Quick Start
+To quickly get started with Easy Player, please follow these steps:
 
 ```bash
-# 克隆仓库
+# Clone the repository
 git clone https://github.com/wzace123/ezplayer.git
 
-# 进入项目目录
+# Navigate to the project directory
 cd ezplayer
 
-# 启动播放器
+# Run the player
 mvn clean javafx:run
 ```
-如果您更倾向于使用安装包，可以下载提供的安装包，解压后双击`ezplayer.exe`即可运行。
 
-## 使用说明
-1. 启动播放器后，您将看到一个简洁的用户界面。
-2. 在使用搜索框输入音频文件之前，请在设置中配置本地音频文件的目录地址。
-3. 点击播放列表中的音频文件即可开始播放，点击停止按钮可停止播放。
-4. 在设置中，您可以调整播放器的透明度，以减少窗口对其他操作的干扰。
+If you prefer using an installation package, please download the [EZPlayer installer](https://github.com/wzace123/ezplayer/releases/tag/ezplayer-v1.0.0).
 
-这种设计不仅提升了游戏体验，还减少了因切换窗口而产生的干扰，使用户能够更专注于游戏以及与队友的互动。
+## Usage Instructions
+1. After starting the player, you will see a simple user interface.
+2. Before using the search box to input audio files, please configure the directory for local audio files in the settings.
+3. Click on an audio file in the playlist to start playing, and click the stop button to stop playback.
+4. In the settings, you can adjust the transparency of the player to minimize interference with other operations.
 
-希望您能享受使用Easy Player的体验，让您的游戏更具乐趣！
+This design not only enhances the gaming experience but also reduces distractions caused by window switching, allowing users to focus more on gameplay and interactions with teammates.
+
+We hope you enjoy using Easy Player and that it makes your gaming experience more enjoyable!

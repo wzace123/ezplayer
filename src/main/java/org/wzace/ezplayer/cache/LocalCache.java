@@ -20,8 +20,6 @@ public class LocalCache {
 
     private static final AppConfig APP_CONFIG = new AppConfig();
 
-    private static final Map<String, LocalAudioFile> LOCAL_FILE_MAP = new ConcurrentHashMap<>();
-
     private static final List<LocalAudioFile> LOCAL_FILE_LIST = new CopyOnWriteArrayList<>();
 
     private LocalCache() {}
@@ -31,7 +29,6 @@ public class LocalCache {
     }
 
     public void clear() {
-        LOCAL_FILE_MAP.clear();
         LOCAL_FILE_LIST.clear();
         APP_CONFIG.clear();
     }
@@ -42,7 +39,6 @@ public class LocalCache {
         APP_CONFIG.update(appConfig);
 
         for (LocalAudioFile file : fileList) {
-            LOCAL_FILE_MAP.put(file.getFileName(), file);
             LOCAL_FILE_LIST.add(file);
         }
     }

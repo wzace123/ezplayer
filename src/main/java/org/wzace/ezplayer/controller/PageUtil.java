@@ -10,6 +10,7 @@ import org.wzace.ezplayer.App;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * @description: Page Util
@@ -19,15 +20,18 @@ import java.util.Objects;
  */
 public class PageUtil {
 
-    public static void open(ActionEvent event, String page) throws IOException {
-        Objects.requireNonNull(event);
-        Node node = (Node) event.getSource();
-        Objects.requireNonNull(node);
-        Scene scene = node.getScene();
-        Objects.requireNonNull(scene);
-        Stage stage = (Stage) scene.getWindow();
+    public static void open(PageEnum pageEnum) throws IOException {
+        open(pageEnum, null);
+    }
+
+    public static <T> void open(PageEnum pageEnum, Consumer<T> consumer) throws IOException {
+        Stage stage = App.getStage();
         Objects.requireNonNull(stage);
-        Parent root = FXMLLoader.load(Objects.requireNonNull(App.class.getResource(page)));
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(App.class.getResource(pageEnum.fileName)));
+        Parent root = loader.load();
+        if (consumer != null) {
+            consumer.accept(loader.getController());
+        }
         stage.setScene(new Scene(root));
         stage.show();
     }

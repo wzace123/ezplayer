@@ -6,11 +6,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.wzace.ezplayer.App;
 import org.wzace.ezplayer.cache.LocalAudioFileScanner;
 import org.wzace.ezplayer.cache.LocalCache;
 import org.wzace.ezplayer.config.AppConfig;
@@ -39,21 +41,19 @@ public class SettingPageController {
     private Slider opacitySetting;
 
     @FXML
-    public void initialize() throws IOException {
+    private VBox maskVbox;
 
-        AppConfig appConfig = LocalCache.getInstance().getAppConfig();
-
+    @FXML
+    public void initialize() {
         opacitySetting.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
-                Stage stage = (Stage) opacitySetting.getScene().getWindow();
-                if (!Objects.isNull(stage)) {
-                    stage.setOpacity(newValue.doubleValue());
-                }
+                App.getStage().setOpacity(newValue.doubleValue());
             }
         });
 
         Platform.runLater(() -> {
+            AppConfig appConfig = LocalCache.getInstance().getAppConfig();
             if (appConfig.getLocalDirectory() != null) {
                 directoryPathText.setText(appConfig.getLocalDirectory());
             }
@@ -66,7 +66,7 @@ public class SettingPageController {
 
     @FXML
     private void settingExitButtonOnAction(ActionEvent event) throws IOException {
-        PageUtil.open(event, PageEnum.HomePage.fileName);
+        PageUtil.open(PageEnum.HomePage);
     }
 
     @FXML
@@ -86,31 +86,32 @@ public class SettingPageController {
         }
     }
 
-
-
     @FXML
-    private void settingSaveButtonOnAction(ActionEvent event) throws IOException {
-        AppConfigObject appConfig = new AppConfigObject();
+    private void settingSaveButtonOnAction(ActionEvent event) {
+        maskVbox.setVisible(true);
 
-        boolean isDirectory = new File(directoryPathText.getText()).isDirectory();
-        if (isDirectory) {
-            appConfig.setLocalDirectory(directoryPathText.getText());
-        }
-        appConfig.setOpacity(opacitySetting.getValue());
-        AppConfigFileHandler.getInstance().writeFile(appConfig);
-
-        if (isDirectory) {
-            CompletableFuture.supplyAsync(() -> {
-                return LocalAudioFileScanner.doScan(directoryPathText.getText());
-            }).thenAccept(list -> {
-                LocalCache.getInstance().init(appConfig, list);
-            }).whenComplete ((result, e) -> {
-                if (e != null) {
-                    log.error("配置保存异常！", e);
+        CompletableFuture.runAsync(() -> {
+            AppConfigObject appConfig = new AppConfigObject();
+            boolean isDirectory = new File(directoryPathText.getText()).isDirectory();
+            if (isDirectory) {
+                appConfig.setLocalDirectory(directoryPathText.getText());
+            }
+            appConfig.setOpacity(opacitySetting.getValue());
+            App.getStage().setOpacity(appConfig.getOpacity());
+            AppConfigFileHandler.getInstance().writeFile(appConfig);
+            LocalCache.getInstance().init(appConfig, LocalAudioFileScanner.doScan(directoryPathText.getText()));
+        }).whenComplete ((result, e) -> {
+            if (e != null) {
+                log.error("配置保存异常！", e);
+            }
+            Platform.runLater(() -> {
+                maskVbox.setVisible(false);
+                try {
+                    PageUtil.open(PageEnum.HomePage, HomePageController::selectButtonOnAction);
+                } catch (IOException ex) {
+                    log.error("跳转首页异常！", ex);
                 }
             });
-        }
-
-        PageUtil.open(event, PageEnum.HomePage.fileName);
+        });
     }
 }

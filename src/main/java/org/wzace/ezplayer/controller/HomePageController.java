@@ -1,6 +1,5 @@
 package org.wzace.ezplayer.controller;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,13 +9,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
-import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.wzace.ezplayer.config.AppConfigFileHandler;
-import org.wzace.ezplayer.player.JavaFxMediaPlayer;
 import org.wzace.ezplayer.cache.LocalAudioFile;
 import org.wzace.ezplayer.cache.LocalCache;
-import org.wzace.ezplayer.config.AppConfig;
+import org.wzace.ezplayer.player.JavaFxMediaPlayer;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,11 +37,8 @@ public class HomePageController {
     private ListView<LocalAudioFile> selectVoiceList;
 
     @FXML
-    public void initialize() throws IOException {
+    public void initialize() {
 
-        AppConfigFileHandler.getInstance().start();
-
-        // 设置自定义的 CellFactory
         selectVoiceList.setCellFactory(new Callback<ListView<LocalAudioFile>, ListCell<LocalAudioFile>>() {
             @Override
             public ListCell<LocalAudioFile> call(ListView<LocalAudioFile> param) {
@@ -56,25 +49,16 @@ public class HomePageController {
                         if (empty || item == null) {
                             setText(null);
                         } else {
-                            setText(item.getFileName()); // 展示对象的某个属性
+                            setText(item.getFileName());
                         }
                     }
                 };
             }
         });
-
-        Platform.runLater(() -> {
-            Stage stage = (Stage) selectVoiceList.getScene().getWindow();
-            AppConfig appConfig = LocalCache.getInstance().getAppConfig();
-            if (appConfig.getOpacity() != null) {
-                stage.setOpacity(appConfig.getOpacity());
-            }
-        });
-
     }
 
     @FXML
-    private void selectButtonOnAction() {
+    public void selectButtonOnAction() {
         String queryCondition = selectText.getText();
 
         List<LocalAudioFile> matchingFiles = LocalCache.getInstance().getLocalFileList().stream()
@@ -88,7 +72,9 @@ public class HomePageController {
     @FXML
     private void selectVoiceListOnMouseClicked(MouseEvent event) {
         LocalAudioFile localAudioFile = selectVoiceList.getSelectionModel().getSelectedItem();
-        mediaPlayer.play(new Media(new File(localAudioFile.getAbsolutePath()).toURI().toString()));
+        if (localAudioFile != null) {
+            mediaPlayer.play(new Media(new File(localAudioFile.getAbsolutePath()).toURI().toString()));
+        }
     }
 
     @FXML
@@ -98,6 +84,6 @@ public class HomePageController {
 
     @FXML
     private void settingButtonOnAction(ActionEvent event) throws IOException {
-        PageUtil.open(event, PageEnum.SettingPage.fileName);
+        PageUtil.open(PageEnum.SettingPage);
     }
 }

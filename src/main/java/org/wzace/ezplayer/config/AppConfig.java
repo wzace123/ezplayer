@@ -36,5 +36,6 @@ public class AppConfig {
 
     public void clear() {
         this.localDirectory = null;
+        this.opacity = 1.0;
     }
 }

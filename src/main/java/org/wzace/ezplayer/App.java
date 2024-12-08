@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.wzace.ezplayer.cache.LocalCache;
 import org.wzace.ezplayer.config.AppConfig;
 import org.wzace.ezplayer.config.AppConfigFileHandler;
+import org.wzace.ezplayer.controller.PageEnum;
 
 import java.io.IOException;
 
@@ -34,7 +35,7 @@ public class App extends Application {
             stage.setOpacity(appConfig.getOpacity());
         }
 
-        Scene scene = new Scene(FXMLLoader.load(App.class.getResource("HomePage.fxml")));
+        Scene scene = new Scene(FXMLLoader.load(App.class.getResource(PageEnum.HomePage.fileName)));
         stage.setScene(scene);
         stage.setAlwaysOnTop(true); // 确保它在其他窗口之上
         stage.show();

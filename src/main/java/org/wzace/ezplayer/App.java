@@ -1,6 +1,7 @@
 package org.wzace.ezplayer;
 
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,15 +27,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        this.stage = stage;
+        App.stage = stage;
         log.info("app start");
         AppConfigFileHandler.getInstance().start();
         AppConfig appConfig = LocalCache.getInstance().getAppConfig();
-        if (appConfig.getOpacity() != null) {
-            stage.setOpacity(appConfig.getOpacity());
-        }
+        stage.setOpacity(appConfig.getOpacity());
         stage.setScene(PageUtil.getScene(PageEnum.HomePage));
-        stage.setAlwaysOnTop(true);
+        stage.setAlwaysOnTop(appConfig.getAlwaysOnTop());
         stage.show();
     }
 

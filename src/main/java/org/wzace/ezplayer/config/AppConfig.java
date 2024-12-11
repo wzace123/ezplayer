@@ -18,6 +18,8 @@ public class AppConfig {
      */
     private Double opacity;
 
+    private Boolean alwaysOnTop;
+
     public AppConfig() {
     }
 
@@ -29,13 +31,19 @@ public class AppConfig {
         return opacity;
     }
 
+    public Boolean getAlwaysOnTop() {
+        return alwaysOnTop;
+    }
+
     public void update(AppConfigObject appConfig) {
         this.localDirectory = appConfig.getLocalDirectory();
         this.opacity = appConfig.getOpacity();
+        this.alwaysOnTop = appConfig.getAlwaysOnTop();
     }
 
     public void clear() {
         this.localDirectory = null;
-        this.opacity = 1.0;
+        this.opacity = null;
+        this.alwaysOnTop = null;
     }
 }

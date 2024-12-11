@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 public class AppConfigFileHandler {
 
@@ -43,12 +44,17 @@ public class AppConfigFileHandler {
 
         File configFile =  new File(dirPath, fileName);
         if (!configFile.exists()) {
-            configFile.createNewFile();
-            writeFile(new AppConfigObject());
+            if (!configFile.createNewFile()) {
+                log.error("create new file fail. dirPath:{}, fileName:{}", dirPath, fileName);
+                throw new RuntimeException("create new file fail");
+            }
+            AppConfigObject appConfig = new AppConfigObject();
+            writeFile(appConfig);
+            LocalCache.getInstance().init(appConfig, null);
         } else {
             AppConfigObject appConfig = readFile();
-            if (appConfig != null && appConfig.getLocalDirectory() != null) {
-                LocalCache.getInstance().init(appConfig, LocalAudioFileScanner.doScan(appConfig.getLocalDirectory()));
+            if (appConfig != null) {
+                LocalCache.getInstance().init(appConfig, Objects.isNull(appConfig.getLocalDirectory()) ? null : LocalAudioFileScanner.doScan(appConfig.getLocalDirectory()));
             }
         }
     }

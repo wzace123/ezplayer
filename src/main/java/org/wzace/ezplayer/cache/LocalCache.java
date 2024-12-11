@@ -4,8 +4,6 @@ import org.wzace.ezplayer.config.AppConfig;
 import org.wzace.ezplayer.config.AppConfigObject;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -38,8 +36,8 @@ public class LocalCache {
 
         APP_CONFIG.update(appConfig);
 
-        for (LocalAudioFile file : fileList) {
-            LOCAL_FILE_LIST.add(file);
+        if (fileList != null) {
+            LOCAL_FILE_LIST.addAll(fileList);
         }
     }
 

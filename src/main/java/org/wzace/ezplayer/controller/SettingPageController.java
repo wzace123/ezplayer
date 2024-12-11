@@ -1,10 +1,8 @@
 package org.wzace.ezplayer.controller;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -43,7 +41,10 @@ public class SettingPageController {
     @FXML
     private VBox maskVbox;
 
-    private static SettingPageController instance = new SettingPageController();
+    @FXML
+    private CheckBox alwaysOnTop;
+
+    private static final SettingPageController instance = new SettingPageController();
 
     private SettingPageController() {}
 
@@ -53,27 +54,36 @@ public class SettingPageController {
 
     @FXML
     public void initialize() {
-        opacitySetting.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
-                App.getStage().setOpacity(newValue.doubleValue());
-            }
-        });
+        opacitySetting.valueProperty().addListener((observableValue, oldValue, newValue) -> App.getStage().setOpacity(newValue.doubleValue()));
 
         Platform.runLater(() -> {
             AppConfig appConfig = LocalCache.getInstance().getAppConfig();
             if (appConfig.getLocalDirectory() != null) {
                 directoryPathText.setText(appConfig.getLocalDirectory());
             }
-            if (appConfig.getOpacity() != null) {
-                opacitySetting.setValue(appConfig.getOpacity());
-            }
+            opacitySetting.setValue(appConfig.getOpacity());
+            alwaysOnTop.setSelected(appConfig.getAlwaysOnTop());
         });
 
     }
 
     @FXML
-    private void settingExitButtonOnAction(ActionEvent event) throws IOException {
+    private void settingExitButtonOnAction() throws IOException {
+        AppConfig appConfig = LocalCache.getInstance().getAppConfig();
+        if (!Objects.equals(directoryPathText.getText(), appConfig.getLocalDirectory())) {
+            directoryPathText.setText(appConfig.getLocalDirectory());
+        }
+
+        Stage stage = App.getStage();
+        if (Double.compare(stage.getOpacity(), appConfig.getOpacity()) != 0) {
+            stage.setOpacity(appConfig.getOpacity());
+            opacitySetting.setValue(appConfig.getOpacity());
+        }
+
+        if (Boolean.compare(alwaysOnTop.isSelected(), appConfig.getAlwaysOnTop()) != 0) {
+            alwaysOnTop.setSelected(appConfig.getAlwaysOnTop());
+        }
+
         PageUtil.open(PageEnum.HomePage);
     }
 
@@ -85,42 +95,47 @@ public class SettingPageController {
         String localDirectory = LocalCache.getInstance().getAppConfig().getLocalDirectory();
         directoryChooser.setInitialDirectory(new File(Objects.isNull(localDirectory) ? "C:/" : localDirectory));
         // 显示对话框并获取选中的目录
-        File selectedDirectory = directoryChooser.showDialog((Stage) directoryPathText.getScene().getWindow());
+        File selectedDirectory = directoryChooser.showDialog(directoryPathText.getScene().getWindow());
         if (selectedDirectory != null) {
             // 更新文本内容以显示选择的目录路径
             directoryPathText.setText(selectedDirectory.getAbsolutePath());
-        } else {
-            directoryPathText.setText("没有选择任何目录");
         }
     }
 
     @FXML
-    private void settingSaveButtonOnAction(ActionEvent event) {
+    private void settingSaveButtonOnAction() {
         maskVbox.setVisible(true);
 
+        AppConfigObject appConfig = new AppConfigObject();
+        boolean isDirectory = new File(directoryPathText.getText()).isDirectory();
+        if (isDirectory) {
+            appConfig.setLocalDirectory(directoryPathText.getText());
+        }
+        appConfig.setOpacity(opacitySetting.getValue());
+        appConfig.setAlwaysOnTop(alwaysOnTop.isSelected());
+
+        Stage stage = App.getStage();
+        stage.setOpacity(appConfig.getOpacity());
+        stage.setAlwaysOnTop(appConfig.getAlwaysOnTop());
+
+        String directoryPath = directoryPathText.getText();
         CompletableFuture.runAsync(() -> {
-            AppConfigObject appConfig = new AppConfigObject();
-            boolean isDirectory = new File(directoryPathText.getText()).isDirectory();
-            if (isDirectory) {
-                appConfig.setLocalDirectory(directoryPathText.getText());
-            }
-            appConfig.setOpacity(opacitySetting.getValue());
-            App.getStage().setOpacity(appConfig.getOpacity());
             AppConfigFileHandler.getInstance().writeFile(appConfig);
-            LocalCache.getInstance().init(appConfig, LocalAudioFileScanner.doScan(directoryPathText.getText()));
+            LocalCache.getInstance().init(appConfig, Objects.isNull(directoryPath) ? null : LocalAudioFileScanner.doScan(directoryPath));
         }).whenComplete ((result, e) -> {
             if (e != null) {
                 log.error("配置保存异常！", e);
+            } else {
+                Platform.runLater(() -> {
+                    maskVbox.setVisible(false);
+                    try {
+                        PageUtil.open(PageEnum.HomePage);
+                        HomePageController.getInstance().selectButtonOnAction();
+                    } catch (IOException ex) {
+                        log.error("跳转首页异常！", ex);
+                    }
+                });
             }
-            Platform.runLater(() -> {
-                maskVbox.setVisible(false);
-                try {
-                    PageUtil.open(PageEnum.HomePage);
-                    HomePageController.getInstance().selectButtonOnAction();
-                } catch (IOException ex) {
-                    log.error("跳转首页异常！", ex);
-                }
-            });
         });
     }
 }

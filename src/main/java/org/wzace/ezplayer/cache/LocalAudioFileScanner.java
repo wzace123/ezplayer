@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Stack;
 
 /**
@@ -23,6 +24,7 @@ public class LocalAudioFileScanner {
     private static final List<String> SUPPORTED_EXTENSIONS = Arrays.asList("mp3", "wav", "aac", "m4a", "aiff", "ogg");
 
     public static List<LocalAudioFile> doScan(String directoryPath) {
+        Objects.requireNonNull(directoryPath);
 
         List<LocalAudioFile> fileList = new ArrayList<>();
         File rootDirectory = new File(directoryPath);

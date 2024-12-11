@@ -17,7 +17,11 @@ public class AppConfigObject implements Serializable {
 
     private Double opacity;
 
+    private Boolean alwaysOnTop;
+
     public AppConfigObject() {
+        this.opacity = 1d;
+        this.alwaysOnTop = true;
     }
 
     public String getLocalDirectory() {
@@ -34,5 +38,13 @@ public class AppConfigObject implements Serializable {
 
     public void setOpacity(Double opacity) {
         this.opacity = opacity;
+    }
+
+    public Boolean getAlwaysOnTop() {
+        return alwaysOnTop;
+    }
+
+    public void setAlwaysOnTop(Boolean alwaysOnTop) {
+        this.alwaysOnTop = alwaysOnTop;
     }
 }

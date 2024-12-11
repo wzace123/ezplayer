@@ -3,12 +3,10 @@ package org.wzace.ezplayer.controller;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.util.Callback;
 import org.wzace.ezplayer.cache.LocalAudioFile;
@@ -30,7 +28,7 @@ public class HomePageController {
 
     private static final JavaFxMediaPlayer mediaPlayer = JavaFxMediaPlayer.getInstance();
 
-    private static HomePageController instance = new HomePageController();
+    private static final HomePageController instance = new HomePageController();
 
     @FXML
     private TextField selectText;
@@ -47,10 +45,10 @@ public class HomePageController {
     @FXML
     public void initialize() {
 
-        selectVoiceList.setCellFactory(new Callback<ListView<LocalAudioFile>, ListCell<LocalAudioFile>>() {
+        selectVoiceList.setCellFactory(new Callback<>() {
             @Override
             public ListCell<LocalAudioFile> call(ListView<LocalAudioFile> param) {
-                return new ListCell<LocalAudioFile>() {
+                return new ListCell<>() {
                     @Override
                     protected void updateItem(LocalAudioFile item, boolean empty) {
                         super.updateItem(item, empty);
@@ -64,9 +62,7 @@ public class HomePageController {
             }
         });
 
-        Platform.runLater(() -> {
-            selectButtonOnAction();
-        });
+        Platform.runLater(this::selectButtonOnAction);
     }
 
     @FXML
@@ -82,7 +78,7 @@ public class HomePageController {
     }
 
     @FXML
-    private void selectVoiceListOnMouseClicked(MouseEvent event) {
+    private void selectVoiceListOnMouseClicked() {
         LocalAudioFile localAudioFile = selectVoiceList.getSelectionModel().getSelectedItem();
         if (localAudioFile != null) {
             mediaPlayer.play(new Media(new File(localAudioFile.getAbsolutePath()).toURI().toString()));
@@ -95,7 +91,7 @@ public class HomePageController {
     }
 
     @FXML
-    private void settingButtonOnAction(ActionEvent event) throws IOException {
+    private void settingButtonOnAction() throws IOException {
         PageUtil.open(PageEnum.SettingPage);
     }
 }

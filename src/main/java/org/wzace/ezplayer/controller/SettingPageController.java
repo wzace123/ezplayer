@@ -43,6 +43,14 @@ public class SettingPageController {
     @FXML
     private VBox maskVbox;
 
+    private static SettingPageController instance = new SettingPageController();
+
+    private SettingPageController() {}
+
+    public static SettingPageController getInstance() {
+        return instance;
+    }
+
     @FXML
     public void initialize() {
         opacitySetting.valueProperty().addListener(new ChangeListener<Number>() {
@@ -107,7 +115,8 @@ public class SettingPageController {
             Platform.runLater(() -> {
                 maskVbox.setVisible(false);
                 try {
-                    PageUtil.open(PageEnum.HomePage, HomePageController::selectButtonOnAction);
+                    PageUtil.open(PageEnum.HomePage);
+                    HomePageController.getInstance().selectButtonOnAction();
                 } catch (IOException ex) {
                     log.error("跳转首页异常！", ex);
                 }

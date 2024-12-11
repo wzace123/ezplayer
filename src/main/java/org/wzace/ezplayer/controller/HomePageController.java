@@ -1,5 +1,6 @@
 package org.wzace.ezplayer.controller;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,12 +30,19 @@ public class HomePageController {
 
     private static final JavaFxMediaPlayer mediaPlayer = JavaFxMediaPlayer.getInstance();
 
+    private static HomePageController instance = new HomePageController();
 
     @FXML
     private TextField selectText;
 
     @FXML
     private ListView<LocalAudioFile> selectVoiceList;
+
+    private HomePageController() {}
+
+    public static HomePageController getInstance() {
+        return instance;
+    }
 
     @FXML
     public void initialize() {
@@ -54,6 +62,10 @@ public class HomePageController {
                     }
                 };
             }
+        });
+
+        Platform.runLater(() -> {
+            selectButtonOnAction();
         });
     }
 

@@ -24,8 +24,13 @@ public class PageUtil {
     public static void open(PageEnum pageEnum) throws IOException {
         Objects.requireNonNull(pageEnum);
         Stage stage = App.getStage();
+        double width =  stage.getWidth();
+        double height = stage.getHeight();
         Objects.requireNonNull(stage);
-        stage.setScene(getScene(pageEnum));
+        Scene scene = getScene(pageEnum);
+        stage.setScene(scene);
+        stage.setWidth(width);
+        stage.setHeight(height);
         stage.show();
     }
 

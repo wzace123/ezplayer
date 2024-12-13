@@ -1,4 +1,4 @@
-package org.wzace.ezplayer.controller;
+package org.wzace.ezplayer.enums;
 
 /**
  * @description: Page Enum
@@ -11,7 +11,7 @@ public enum PageEnum {
     HomePage("HomePage.fxml"),
     SettingPage("SettingPage.fxml");
 
-    public String fileName;
+    public final String fileName;
 
     PageEnum(String fileName) {
         this.fileName = fileName;

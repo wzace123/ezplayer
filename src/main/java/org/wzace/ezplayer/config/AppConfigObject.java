@@ -1,5 +1,7 @@
 package org.wzace.ezplayer.config;
 
+import org.wzace.ezplayer.enums.LanguageEnum;
+
 import java.io.Serializable;
 
 /**
@@ -19,9 +21,12 @@ public class AppConfigObject implements Serializable {
 
     private Boolean alwaysOnTop;
 
+    private LanguageEnum language;
+
     public AppConfigObject() {
         this.opacity = 1d;
         this.alwaysOnTop = true;
+        this.language = LanguageEnum.SIMPLIFIED_CHINESE;
     }
 
     public String getLocalDirectory() {
@@ -46,5 +51,13 @@ public class AppConfigObject implements Serializable {
 
     public void setAlwaysOnTop(Boolean alwaysOnTop) {
         this.alwaysOnTop = alwaysOnTop;
+    }
+
+    public LanguageEnum getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(LanguageEnum language) {
+        this.language = language;
     }
 }

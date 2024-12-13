@@ -7,8 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.wzace.ezplayer.cache.LocalCache;
 import org.wzace.ezplayer.config.AppConfig;
 import org.wzace.ezplayer.config.AppConfigFileHandler;
-import org.wzace.ezplayer.controller.PageEnum;
-import org.wzace.ezplayer.controller.PageUtil;
+import org.wzace.ezplayer.enums.PageEnum;
+import org.wzace.ezplayer.manager.EzplayerI18nManager;
+import org.wzace.ezplayer.manager.EzplayerSceneManager;
 
 import java.io.IOException;
 
@@ -30,8 +31,10 @@ public class App extends Application {
         log.info("app start");
         AppConfigFileHandler.getInstance().start();
         AppConfig appConfig = LocalCache.getInstance().getAppConfig();
+        EzplayerI18nManager.getInstance().setLocale(appConfig.getLanguage().getLocale());
+
         stage.setOpacity(appConfig.getOpacity());
-        stage.setScene(PageUtil.getScene(PageEnum.HomePage));
+        stage.setScene(EzplayerSceneManager.getInstance().getScene(PageEnum.HomePage));
         stage.setAlwaysOnTop(appConfig.getAlwaysOnTop());
         stage.show();
     }

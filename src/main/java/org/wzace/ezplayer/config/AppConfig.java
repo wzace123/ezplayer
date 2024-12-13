@@ -1,5 +1,7 @@
 package org.wzace.ezplayer.config;
 
+import org.wzace.ezplayer.enums.LanguageEnum;
+
 /**
  * @description: App Config
  * @author: wangzhe
@@ -20,6 +22,8 @@ public class AppConfig {
 
     private Boolean alwaysOnTop;
 
+    private LanguageEnum language;
+
     public AppConfig() {
     }
 
@@ -35,15 +39,21 @@ public class AppConfig {
         return alwaysOnTop;
     }
 
+    public LanguageEnum getLanguage() {
+        return language;
+    }
+
     public void update(AppConfigObject appConfig) {
         this.localDirectory = appConfig.getLocalDirectory();
         this.opacity = appConfig.getOpacity();
         this.alwaysOnTop = appConfig.getAlwaysOnTop();
+        this.language = appConfig.getLanguage();
     }
 
     public void clear() {
         this.localDirectory = null;
         this.opacity = null;
         this.alwaysOnTop = null;
+        this.language = null;
     }
 }

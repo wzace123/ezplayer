@@ -56,7 +56,7 @@ public class LocalAudioFileScanner {
                 }
             }
         } else {
-            log.error("扫描文件夹异常![{}]不是一个有效的目录", directoryPath);
+            log.error("Scanning folder exception! [{}] is not a valid directory.", directoryPath);
         }
 
         return fileList;

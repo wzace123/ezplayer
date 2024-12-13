@@ -2,24 +2,48 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<AnchorPane prefHeight="571.0" prefWidth="382.0" xmlns="http://javafx.com/javafx/21.0.5" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.wzace.ezplayer.controller.SettingPageController">
-   <children>
-      <Button layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#settingExitButtonOnAction" text="退出" AnchorPane.leftAnchor="14" AnchorPane.topAnchor="10" />
-      <Button layoutX="14.0" layoutY="103.0" mnemonicParsing="false" onAction="#handleDirectoryChoose" text="选择音频文件目录" AnchorPane.leftAnchor="14" AnchorPane.topAnchor="90" />
-      <Text fx:id="directoryPathText" layoutX="14.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" wrappingWidth="354.240234375" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="55.765625" />
-      <Slider fx:id="opacitySetting" layoutX="14.0" layoutY="190.0" max="1.0" min="0.3" prefHeight="14.0" prefWidth="147.0" value="1.0" AnchorPane.leftAnchor="14" AnchorPane.topAnchor="170" />
-      <Button fx:id="settingSaveButton" layoutX="68.0" layoutY="10.0" mnemonicParsing="false" onAction="#settingSaveButtonOnAction" text="保存" AnchorPane.leftAnchor="68.0" AnchorPane.topAnchor="10.0" />
-      <Text fx:id="opacitySettingText" layoutX="18.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="窗口透明度" wrappingWidth="140.0" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="142.765625" />
-      <CheckBox fx:id="alwaysOnTop" layoutX="18.0" layoutY="215.0" mnemonicParsing="false" style="-fx-font-size: 15;" text="窗口置于顶层" />
-      <!-- 遮罩VBox，放在最上层 -->
-      <VBox fx:id="maskVbox" alignment="CENTER" style="-fx-background-color: rgba(0, 0, 0, 0.5);" visible="false" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+<AnchorPane prefHeight="571.0" prefWidth="382.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.wzace.ezplayer.controller.SettingPageController">
+<children>
+   <VBox spacing="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
+      <HBox alignment="CENTER_LEFT" spacing="10">
+         <Button fx:id="settingExitButton" mnemonicParsing="false" onAction="#settingExitButtonOnAction" text="%settingExitButton" />
+         <Button fx:id="settingsSaveButton" mnemonicParsing="false" onAction="#settingsSaveButtonOnAction" text="%settingsSaveButton" />
+      </HBox>
+      <VBox spacing="10">
          <children>
-            <Text style="-fx-font-size: 25;" text="保存配置中..." textAlignment="CENTER" />
+            <Label fx:id="directoryPathLabel" />
+            <Button fx:id="chooseDirectoryButton" mnemonicParsing="false" onAction="#handleDirectoryChoose" text="%chooseDirectoryButton" />
          </children>
       </VBox>
-   </children>
+      <HBox spacing="10">
+         <children>
+            <Label fx:id="opacitySettingLabel" text="%opacitySettingLabel" />
+            <Slider fx:id="opacitySetting" max="1.0" min="0.3" prefHeight="14.0" prefWidth="147.0" value="1.0" />
+         </children>
+      </HBox>
+      <HBox spacing="10">
+         <children>
+            <Label fx:id="selectedLanguageLabel" text="%selectedLanguageLabel" />
+            <ChoiceBox fx:id="selectedLanguage" prefWidth="150.0" />
+         </children>
+      </HBox>
+      <VBox spacing="10">
+         <children>
+            <CheckBox fx:id="alwaysOnTop" mnemonicParsing="false"  text="%alwaysOnTop" />
+         </children>
+      </VBox>
+   </VBox>
+   <VBox fx:id="maskVbox" alignment="CENTER" style="-fx-background-color: rgba(0, 0, 0, 0.5);" visible="false" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+      <children>
+         <Text fx:id="maskVboxText" style="-fx-font-size: 25;" text="%maskVboxText" textAlignment="CENTER" />
+      </children>
+   </VBox>
+</children>
 </AnchorPane>

@@ -16,4 +16,8 @@ module org.wzace.ezplayer {
     exports org.wzace.ezplayer.controller;
     exports org.wzace.ezplayer.player;
     opens org.wzace.ezplayer.controller to javafx.fxml;
+    exports org.wzace.ezplayer.manager;
+    opens org.wzace.ezplayer.manager to javafx.fxml;
+    exports org.wzace.ezplayer.enums;
+    opens org.wzace.ezplayer.enums to javafx.fxml;
 }

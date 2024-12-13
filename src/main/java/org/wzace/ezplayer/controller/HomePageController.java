@@ -11,6 +11,7 @@ import javafx.scene.media.Media;
 import javafx.util.Callback;
 import org.wzace.ezplayer.cache.LocalAudioFile;
 import org.wzace.ezplayer.cache.LocalCache;
+import org.wzace.ezplayer.enums.PageEnum;
 import org.wzace.ezplayer.player.JavaFxMediaPlayer;
 
 import java.io.File;
@@ -31,7 +32,7 @@ public class HomePageController {
     private static final HomePageController instance = new HomePageController();
 
     @FXML
-    private TextField selectText;
+    private TextField searchText;
 
     @FXML
     private ListView<LocalAudioFile> selectVoiceList;
@@ -62,12 +63,12 @@ public class HomePageController {
             }
         });
 
-        Platform.runLater(this::selectButtonOnAction);
+        Platform.runLater(this::searchButtonOnAction);
     }
 
     @FXML
-    public void selectButtonOnAction() {
-        String queryCondition = selectText.getText();
+    public void searchButtonOnAction() {
+        String queryCondition = searchText.getText();
 
         List<LocalAudioFile> matchingFiles = LocalCache.getInstance().getLocalFileList().stream()
                 .filter(file -> Pattern.matches(".*" +queryCondition+ ".*", file.getFileName()))
@@ -91,7 +92,7 @@ public class HomePageController {
     }
 
     @FXML
-    private void settingButtonOnAction() throws IOException {
+    private void settingsButtonOnAction() throws IOException {
         PageUtil.open(PageEnum.SettingPage);
     }
 }

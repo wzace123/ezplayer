@@ -10,9 +10,9 @@ Easy Player is a simple and efficient audio player designed specifically for gam
 
 ## Project Dependencies
 Easy Player relies on the following library versions, please ensure you have the respective dependencies installed:
-- **Java**: `JDK 17`
+- **Java**: `JDK 23`
 - **Maven**: `3.9.7`
-- **JavaFX**: `21.0.5`
+- **JavaFX**: `23.0.1`
 
 ## Compatibility
 Currently, Easy Player **only supports Windows operating systems**.

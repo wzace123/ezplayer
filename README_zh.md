@@ -9,9 +9,9 @@ Easy Player 是一款简单且高效的音频播放器，专为游戏玩家设�
 
 ## 项目依赖
 Easy Player 依赖以下库版本，请确保您已安装相应的依赖项：
-- **Java**: `JDK 17`
+- **Java**: `JDK 23`
 - **Maven**: `3.9.7`
-- **JavaFX**: `21.0.5`
+- **JavaFX**: `23.0.1`
 
 ## 兼容性
 目前，Easy Player **仅支持 Windows 操作系统**。
